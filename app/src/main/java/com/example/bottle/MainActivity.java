@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -18,7 +19,8 @@ import android.app.NotificationManager;
 import android.view.View;
 
 import java.io.IOException;
-
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CHANNEL_ID = "channel_id";
@@ -27,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_NAME = "Notification Channel";
     int importance = NotificationManager.IMPORTANCE_DEFAULT;
     private static final String APP_ID = "q1XJyymP9b7EfWjZjzuCQTrsmLmaPUmXKNt/Jq5EorXltx8yYQ1Dag==";
+    float level_past=-1;
+    int day_past = -1;
+    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+    SharedPreferences.Editor editor = pref.edit();
 
     public MainActivity() throws IOException {
     }
@@ -37,22 +43,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView text_temp = (TextView) findViewById(R.id.temp);
-        String temperature ="  0";
-        text_temp.setText("Water Temperature:" + temperature); //set text for text view
+        String temperature ="0";//from arduino
+        text_temp.setText("Water Temperature: " + temperature+"C"); //set text for text view
 
         TextView text_level = (TextView) findViewById(R.id.level);
-        String level ="  5%";
-        text_level.setText("Water Level:" + level); //set text for text view
+        String water_litters = "0.75";//from arduino, qde el qnene feha
+        double water_litters_double = Double.parseDouble(water_litters);
+        double bottle_size = 2; //in litters
+        double level_double = (water_litters_double/bottle_size)*100;
+        float level = (float)level_double;
+        text_level.setText("Water Level: " + level+"%"); //set text for text view
+
+        //if hot 40+, mraq 3 ayam mt3abatesh
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        if(day_past == -1){
+            update_day(day);
+        }
+        pref.getFloat("level_past",level_past);
+        pref.getInt("day_past",day_past);
 
         TextView text_expire = (TextView) findViewById(R.id.expire);
-        boolean flag_expire=true;
-        if(flag_expire) {
-            text_expire.setText("Don't Drink - Refill it again!!"); //set text for text view
+        //
+        //TODO
+        if(level==level_past ) { // not the same data > 4
+            if (day == day_past + 4) {
+                text_expire.setText("Don't Drink - Refill it again!!"); //set text for text view
+            }
         }else{
             text_expire.setText(" Safe to Drink "); //set text for text view
+                update_level(level);
+                update_day(day);
         }
 
-
+     
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME, importance);
 
@@ -122,8 +146,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void update_level(float level) {
+        level_past = level;
+        editor.putFloat("level_past", level_past); // Storing long
+        editor.commit(); // commit changes
+    }
+    private void update_day(int day) {
+        day_past = day;
+        editor.putFloat("day_past", day_past); // Storing long
+        editor.commit(); // commit changes
+    }
 
-    String name_lina=" This is a new branch test lina";
+
+        String name_lina=" This is a new branch test lina";
 
 
 
