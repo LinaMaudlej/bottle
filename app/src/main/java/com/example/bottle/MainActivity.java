@@ -123,5 +123,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    String name_lina="lina";
+
+
 
 }
