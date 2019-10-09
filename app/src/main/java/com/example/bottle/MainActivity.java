@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    String name_lina="lina";
+    String name_lina=" This is a new branch test lina";
 
 
 
