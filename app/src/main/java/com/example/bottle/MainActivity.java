@@ -1,4 +1,5 @@
 package com.example.bottle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -15,11 +16,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
 import android.app.NotificationManager;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -33,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inf= getMenuInflater();
         inf.inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.user:
+                Toast.makeText(this," showing your profile settings ",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.hydration:
+                    Toast.makeText(this," showing your hydration goal settings ",Toast.LENGTH_SHORT).show();
+                    return true;
+        }
         return true;
     }
 
@@ -150,9 +166,7 @@ public class MainActivity extends AppCompatActivity {
         if(level < level_past){
             update_minutes(minutes);
         }
-        if(level != level_past){
-            update_level(level);
-        }
+        update_level(level);
 
 
         //notification
