@@ -77,9 +77,10 @@
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.954" />
+        app:layout_constraintVertical_bias="0.908" />
 
     <Button
         android:id="@+id/buttonhydration"
@@ -92,22 +93,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expire"
         app:layout_constraintVertical_bias="0.768" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notification"
-        android:id="@+id/button"
-        android:layout_marginTop="62dp"
-        android:layout_centerHorizontal="true" />
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:text="Getting Weather..." android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_centerInParent="true"
-        android:textSize="28sp"/>
 
 
 
