@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_NAME = "Notification Channel";
     int importance = NotificationManager.IMPORTANCE_DEFAULT;
     private static final String APP_ID = "q1XJyymP9b7EfWjZjzuCQTrsmLmaPUmXKNt/Jq5EorXltx8yYQ1Dag==";
-    float level_past=-1;
+    float level_past = -1;
     int day_past = -1;
     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
     SharedPreferences.Editor editor = pref.edit();
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 update_day(day);
         }
 
-     
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME, importance);
 
