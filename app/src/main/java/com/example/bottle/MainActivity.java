@@ -5,6 +5,7 @@ import androidx.core.app.NotificationManagerCompat;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,8 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,8 +24,18 @@ import android.view.View;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
+
+    //our menu : hydration and user
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inf= getMenuInflater();
+        inf.inflate(R.menu.menu,menu);
+        return true;
+    }
+
     public static final String NOTIFICATION_CHANNEL_ID = "channel_id";
     public static final int NOTIFICATION_ID = 101;
 //safe to drink
@@ -31,8 +44,24 @@ public class MainActivity extends AppCompatActivity {
     float level_past = -1;
     int day_past = -1;// the last day the person drank in it
     int minutes_past=-1;
-    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-    SharedPreferences.Editor editor = pref.edit();
+
+    //saving parameters in local storage
+    SharedPreferences.Editor editor;
+    private static Context mContext;
+
+    private static MainActivity instance;
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public static Context getContext() {
+        //  return instance.getApplicationContext();
+        return mContext;
+    }
+
+
+
 //hydration goal
     private static int allowed_minutes_notification =15;
     private static double  cup_litters=0.25;
@@ -47,15 +76,21 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() throws IOException {
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext= getApplicationContext();
+        SharedPreferences pref = mContext.getSharedPreferences("MyPref", 0); // 0 - for private mode
+         editor = pref.edit();
         setContentView(R.layout.activity_main);
 
         TextView text_temp = (TextView) findViewById(R.id.temp);
         String temperature ="0";//from arduino
         double temperature_double = Double.parseDouble(temperature);
-        text_temp.setText("Water Temperature: " + temperature + "C"); //set text for text view
+        text_temp.setText("Water Temperature: " + temperature + "°C"); //set text for text view
 
         TextView text_level = (TextView) findViewById(R.id.level);
         String water_litters = "2";//from arduino, qde el qnene feha, in litters
@@ -79,12 +114,17 @@ public class MainActivity extends AppCompatActivity {
         //the water did not fill for more than allowed_days_drink -1
         if(temperature_double > 40){
             text_expire.setText("Don't Drink - Refill it again!!"); //set text for text view
+            text_expire.setTextColor(getResources().getColor(R.color.colorAccent));
+
         }else {
             if (level <= level_past && day >= (day_past +  allowed_days_drink)) { // not the same data > 4
                     text_expire.setText("Don't Drink - Refill it again!!"); //set text for text view
+                text_expire.setTextColor(getResources().getColor(R.color.colorAccent));
+
 
             } else {
                 text_expire.setText("Safe to Drink"); //set text for text view
+                text_expire.setTextColor(getResources().getColor(R.color.colorGreen));
             }
         }
         if(level > level_past){
@@ -140,14 +180,14 @@ public class MainActivity extends AppCompatActivity {
 
       }
 
-        double lat = 40.712774, lon = -74.006091;
-        String units = "imperial";
-        //String url = String.format("http://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=%s&appid=%s",
-         //       lat, lon, units, APP_ID);
-        String url = String.format("https://tempratureparam.azurewebsites.net/api/temprature?code=q1XJyymP9b7EfWjZjzuCQTrsmLmaPUmXKNt/Jq5EorXltx8yYQ1Dag==&temprature=%f",
-                lat, APP_ID);
-        TextView textView = (TextView) findViewById(R.id.textView2);
-        new GetWeatherTask(textView).execute(url);
+//        double lat = 40.712774, lon = -74.006091;
+//        String units = "imperial";
+//        //String url = String.format("http://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=%s&appid=%s",
+//         //       lat, lon, units, APP_ID);
+//        String url = String.format("https://tempratureparam.azurewebsites.net/api/temprature?code=q1XJyymP9b7EfWjZjzuCQTrsmLmaPUmXKNt/Jq5EorXltx8yYQ1Dag==&temprature=%f",
+//                lat, APP_ID);
+//        TextView textView = (TextView) findViewById(R.id.textView2);
+//        new GetWeatherTask(textView).execute(url);
 
 
         }
@@ -191,9 +231,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("minutes_past", minutes_past); // Storing Int
         editor.commit(); // commit changes
     }
-
-
-
 
 
 }
