@@ -44,9 +44,13 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.user:
                 Toast.makeText(this," showing your profile settings ",Toast.LENGTH_SHORT).show();
+                Intent intent_user = new Intent(this,UserActivity.class );
+                this.startActivity(intent_user);
                 return true;
             case R.id.hydration:
                     Toast.makeText(this," showing your hydration goal settings ",Toast.LENGTH_SHORT).show();
+                    Intent intent_hydration = new Intent(this, HydrationActivity.class);
+                    this.startActivity(intent_hydration);
                     return true;
         }
         return true;
