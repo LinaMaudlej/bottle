@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/user"
-        android:icon="@drawable/ic_icon"
-        android:title="@string/user"
-        app:showAsAction="never"
-
-        ></item>
     <item android:id="@+id/hydration"
-        android:icon="@drawable/ic_icon"
+        android:icon="@drawable/ic_hydration"
         android:title="@string/hydration"
-        app:showAsAction="never"
+        app:showAsAction="always"
 
         ></item>
+    <item android:id="@+id/user"
+        android:icon="@drawable/ic_user"
+        android:title="@string/user"
+        app:showAsAction="always"
+
+        ></item>
+
 
 </menu>
