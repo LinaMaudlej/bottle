@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class HydrationActivity extends AppCompatActivity {
 
 
        mEdit.setText(litters, TextView.BufferType.EDITABLE);
+        final Intent intent = new Intent (this, MainActivity.class);
 
         mButton.setOnClickListener(
                 new View.OnClickListener()
@@ -41,6 +43,9 @@ public class HydrationActivity extends AppCompatActivity {
                         String litters=mEdit.getText().toString();
                         editor.putString("litters",litters);
                         editor.commit();
+
+                        intent.putExtra("litters", litters);
+                        startActivity(intent);
                     }
                 });
 

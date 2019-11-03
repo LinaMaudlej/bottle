@@ -83,11 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 //hydration goal
-    private static int allowed_minutes_notification =15;
-    private static double  cup_litters=0.25;
-    private static double goal_littersPerDay=2.5;
-    Intent intent = getIntent();
-
+    private static int allowed_minutes_notification =20;//to be changed from settings
+    private static double  cup_litters=0.25;      //to be changed from settings
+    private static double goal_littersPerDay=2.5; //getting it from hydrartion activity
     private int drank_littersPerDay=0;
 //notifcation
     public static final String CHANNEL_NAME = "Notification Channel";
@@ -108,10 +106,24 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = mContext.getSharedPreferences("MyPref", 0); // 0 - for private mode
          editor = pref.edit();
         setContentView(R.layout.activity_main);
-        Bundle p=getIntent().getExtras();
-       // String hydration_litters = intent.getStringExtra("hydration_litters");
-        //String hydration_litters= (String)p.getString("hydration_litters");
-        //goal_littersPerDay=Double.parseDouble(hydration_litters);
+
+        String litters="2.5";
+        //getting data from hydration activity
+        Intent intent = getIntent();
+        try {
+             litters = intent.getExtras().getString("litters");
+        }catch(NullPointerException e){
+            litters=pref.getString("litters_hydration",litters);
+        }
+        if(litters==null){
+            litters=pref.getString("litters_hydration","2.5");
+        }
+        update_litters(litters);
+        goal_littersPerDay=Double.parseDouble(litters);
+
+        TextView text_littershydration = (TextView) findViewById(R.id.littershydration);
+        text_littershydration.setText("[    Your Goal (Litters Per Day): " + litters + "    ]" ); //set text for text view
+
 
         TextView text_temp = (TextView) findViewById(R.id.temp);
         String temperature ="0";//from arduino
@@ -256,5 +268,9 @@ public class MainActivity extends AppCompatActivity {
         editor.commit(); // commit changes
     }
 
+    private void update_litters(String hydration) {
+        editor.putString("litters_hydration", hydration); // Storing Int
+        editor.commit(); // commit changes
+    }
 
 }
