@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
 //hydration goal
     private static int allowed_minutes_notification =15;
     private static double  cup_litters=0.25;
-    private static int goal_littersPerDay=2;
+    private static double goal_littersPerDay=2.5;
+    Intent intent = getIntent();
+
     private int drank_littersPerDay=0;
 //notifcation
     public static final String CHANNEL_NAME = "Notification Channel";
@@ -106,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = mContext.getSharedPreferences("MyPref", 0); // 0 - for private mode
          editor = pref.edit();
         setContentView(R.layout.activity_main);
+        Bundle p=getIntent().getExtras();
+       // String hydration_litters = intent.getStringExtra("hydration_litters");
+        //String hydration_litters= (String)p.getString("hydration_litters");
+        //goal_littersPerDay=Double.parseDouble(hydration_litters);
 
         TextView text_temp = (TextView) findViewById(R.id.temp);
         String temperature ="0";//from arduino

@@ -7,7 +7,7 @@
     tools:context=".HydrationActivity">
 
     <EditText
-        android:id="@+id/litters"
+        android:id="@+id/edit_litters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="2"
@@ -87,4 +87,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.755"
         app:srcCompat="@mipmap/water" />
+
+    <Button
+        android:id="@+id/submit_litters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/cardview_light_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
 </androidx.constraintlayout.widget.ConstraintLayout>
