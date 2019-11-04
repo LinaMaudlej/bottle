@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/bottle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SignupActivity"></activity>
         <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HydrationActivity"
             android:label="@string/title_activity_hydration"
